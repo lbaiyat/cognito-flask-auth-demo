@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Flask App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Link to external CSS file -->
+</head>
+<body>
+    <div class="container">
+        <h1>Cognito Flask Auth</h1>
+
+        <p>You are logged in and authenticated as {{ data.name }}</p>
+        <form id="myForm" action="/logout" method="POST">
+
+            <div class="buttons">
+                <input type="submit" value="Logout">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#myForm').submit(function (event) {
+                $.ajax({
+                    type: 'POST',
+                    url: '/logout',
+                    data: $('#myForm').serialize(),
+                    success: function (response) {
+                        setTimeout(function () {
+                            window.location.href = '/';
+                        }, 100);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

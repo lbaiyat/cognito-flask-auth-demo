@@ -4,27 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Flask App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- Link to external CSS file -->
 </head>
 <body>
-    <h1>Cognito Flask Auth</h1>
-    <p>Fill in details to register account.</p>
-    <div>
-        <input id="firstName" type="text" placeholder="First Name">
+    <div class="container">
+        <h1>Cognito Flask Auth</h1>
+        <p>Fill in details to register account.</p>
+
+        <form id="myForm" action="/create-new-user" method="POST">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName">
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName">
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword">
+
+            <div class="buttons">
+                <a href="/">
+                    <button type="button" class="cancel-btn">Cancel</button>
+                </a>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
     </div>
-    <div>
-        <input id="lastName" type="text" placeholder="Last Name">
-    </div>
-    <div>
-        <input id="email" type="text" placeholder="email">
-    </div>
-        <span>
-            <a href="/">
-                <button>Cancel</button>
-            </a>
-        </span>
-        <span>
-            <button>Register Account</button>
-        </span>
-    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#myForm').submit(function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                if (validateForm()) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/create-new-user',
+                        data: $('#myForm').serialize(),
+                        success: function (response) {
+                            if (response === "Ok") {
+                                setTimeout(function () {
+                                    alert("New account created successfully");
+                                    window.location.href = '/';
+                                }, 100);
+                            } else if (response === "UsernameExists") {
+                                alert("Email is already registered")
+                            }
+                        },
+                        error: function (response) {
+                            setTimeout(function () {
+                                // Catch all
+                                alert('Account creation failed')
+                            }, 100);
+                        },
+                    });
+                }
+            });
+
+            function validateForm() {
+                var firstName = document.getElementById("firstName").value;
+                var lastName = document.getElementById("lastName").value;
+                var email = document.getElementById("email").value;
+                var password = document.getElementById("password").value;
+                var confirmPassword = document.getElementById("confirmPassword").value;
+
+
+                if (firstName === "" || lastName === "" || email === "" || password === "" || confirmPassword === "") {
+                    alert("Please fill in all fields");
+                    return false;
+                } else if (password !== confirmPassword) {
+                    alert("Passwords do not match.");
+                    return false;
+                } else if (password.length < 8) {
+                    alert("Passwords must be at least 8 characters");
+                    return false;
+                }
+                return true;
+            }
+        });
+    </script>
 </body>
 </html>
