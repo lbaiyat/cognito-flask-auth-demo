@@ -45,9 +45,25 @@ button {
     cursor: pointer;
 }
 
+
 input[type="submit"]:hover,
 button:hover {
     background-color: #0056b3;
+}
+
+.cancel-btn {
+    background-color: #ec2f2f;
+
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.cancel-btn:hover {
+    background-color: #cb4f4f;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
 .register-link {
@@ -61,4 +77,18 @@ button:hover {
 
 .register-link a:hover {
     text-decoration: underline;
+}
+
+.registration-button-group {
+    display: flex;
+    gap: 10px;
+}
+
+.registration-button-group input {
+    padding: 10px 20px;
+}
+
+.user-name-text {
+    font-weight: bold;
+    font-size: 20px;
 }
