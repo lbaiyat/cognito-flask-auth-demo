@@ -15,7 +15,7 @@ def create_boto_session():
     )
     return session
 
-def create_cognito_user_pool(stack_name, template_file, session):
+def create_cognito_user_pool_stack(stack_name, template_file, session):
     cloudformation = session.client('cloudformation')
 
     with open(template_file, 'r') as file:
@@ -27,6 +27,13 @@ def create_cognito_user_pool(stack_name, template_file, session):
         Capabilities=['CAPABILITY_NAMED_IAM']
     )
 
+    return response
+
+def delete_cognito_user_pool_stack(stack_name, session):
+    cloudformation = session.client('cloudformation')
+    response = cloudformation.delete_stack(
+        StackName=stack_name
+    )
     return response
 
 def get_user_pool_id(client):
