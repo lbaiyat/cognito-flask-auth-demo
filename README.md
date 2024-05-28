@@ -46,7 +46,7 @@ AWS Cognito is a service that enables developers to add user sign-up, sign-in, a
 <h2>Instructions:</h2>
 
 <p style="font-size: 15px">
-Getting the Data Stream up and running requires a few steps outlined below.
+Getting the application up and running requires a few steps outlined below.
 </p>
 
 <h3 id="setup-virtual-environment">
